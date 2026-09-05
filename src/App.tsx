@@ -440,19 +440,11 @@ export default function App() {
         >
           {/* Brand Logo Identity */}
           <a
-            className="flex flex-col text-left leading-[1.05] text-[#1a1918] hover:opacity-80 transition-opacity py-1 select-none cursor-pointer"
+            className="flex items-center hover:opacity-80 transition-opacity py-1 select-none cursor-pointer"
             href="#"
             aria-label="TheFusionMedia Homepage"
           >
-            <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#a8854f]">
-              The
-            </span>
-            <span className="text-[15px] font-extrabold tracking-wide font-heading">
-              FusionMedia
-            </span>
-            <span className="text-[8px] uppercase tracking-[0.25em] font-medium text-black/40">
-              Personal Branding · Surat
-            </span>
+            <img src="/logo.png" alt="TheFusionMedia Logo" className="h-8 md:h-10 object-contain" />
           </a>
 
           {/* Navigation items aligned like premium agencies */}
@@ -514,7 +506,7 @@ export default function App() {
       <div className={`mobile-menu-panel ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between px-6 py-5 border-b border-stone-200">
-            <span className="text-sm font-extrabold font-heading text-[#1a1918]">Menu</span>
+            <img src="/logo.png" alt="TheFusionMedia Logo" className="h-6 object-contain" />
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 rounded-full hover:bg-stone-100 transition-colors compact-btn"
@@ -1515,11 +1507,8 @@ export default function App() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-left">
           {/* Logo & details */}
           <div className="md:col-span-2">
-            <p className="text-[10px] uppercase tracking-wider font-semibold text-[#a8854f]">
-              TheFusionMedia
-            </p>
-            <div className="text-xl font-bold tracking-wide font-heading text-white mt-1">
-              Surat, Gujarat
+            <div className="mb-4">
+              <img src="/logo.png" alt="TheFusionMedia Logo" className="h-10 md:h-12 object-contain brightness-0 invert opacity-90" />
             </div>
             <p className="text-zinc-400 text-xs mt-4 max-w-sm leading-relaxed mb-6 font-medium">
               Surat's premier personal branding, social media marketing, and
