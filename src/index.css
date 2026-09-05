@@ -12,6 +12,7 @@
 @layer base {
   html {
     font-family: var(--font-body);
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
@@ -69,3 +70,159 @@
   perspective: 1000px;
 }
 
+/* ==============================
+   MOBILE HORIZONTAL SCROLL SLIDER
+   ============================== */
+
+.mobile-slider {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  padding-bottom: 8px;
+  /* Hide scrollbar for clean mobile look */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mobile-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-slider > * {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}
+
+/* Slider dot indicators */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d6d3d1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-dot.active {
+  background: #a8854f;
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ==============================
+   MOBILE HAMBURGER MENU
+   ============================== */
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 75%;
+  max-width: 320px;
+  z-index: 101;
+  background: #fcfbf9;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-panel.open {
+  transform: translateX(0);
+}
+
+/* ==============================
+   RESPONSIVE FINE-TUNING
+   ============================== */
+
+/* Ensure pricing cards fill properly in slider */
+@media (max-width: 1023px) {
+  .pricing-slider-card {
+    width: 85vw;
+    max-width: 380px;
+    min-width: 300px;
+  }
+
+  .testimonial-slider-card {
+    width: 85vw;
+    max-width: 380px;
+    min-width: 300px;
+  }
+
+  .why-us-slider-card {
+    width: 80vw;
+    max-width: 340px;
+    min-width: 280px;
+  }
+
+  .trust-slider-card {
+    width: 80vw;
+    max-width: 320px;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pricing-slider-card {
+    width: 88vw;
+    max-width: 360px;
+  }
+
+  .testimonial-slider-card {
+    width: 88vw;
+    max-width: 360px;
+  }
+
+  .why-us-slider-card {
+    width: 85vw;
+    max-width: 320px;
+  }
+
+  .trust-slider-card {
+    width: 85vw;
+    max-width: 300px;
+  }
+}
+
+/* Fix for mobile touch targets */
+@media (max-width: 768px) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Keep small icon buttons compact */
+  .compact-btn {
+    min-height: unset;
+    min-width: unset;
+  }
+}

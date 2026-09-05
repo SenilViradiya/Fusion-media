@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Lenis from "lenis";
 import {
@@ -42,6 +42,9 @@ import {
   Quote,
   ChevronDown,
   ChevronUp,
+  Menu,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { PricingPackage, GrowthStep, LeadSubmission } from "./types";
 import { submitLeadForm, OWNER_EMAIL } from "./services/formService";
@@ -89,6 +92,7 @@ export default function App() {
   // Navigation & Interactive Tabs
   const [scrolled, setScrolled] = useState(false);
   const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] =
     useState<string>("Authority Builder");
 
@@ -133,6 +137,34 @@ export default function App() {
 
   // Testimonials view more state (initial 3, expand +2)
   const [showAllTestimonials, setShowAllTestimonials] = useState(false);
+
+  // Mobile slider refs & active indices
+  const testimonialSliderRef = useRef<HTMLDivElement>(null);
+  const pricingSliderRef = useRef<HTMLDivElement>(null);
+  const whyUsSliderRef = useRef<HTMLDivElement>(null);
+  const trustSliderRef = useRef<HTMLDivElement>(null);
+  const [activeTestimonialIdx, setActiveTestimonialIdx] = useState(0);
+  const [activePricingIdx, setActivePricingIdx] = useState(0);
+  const [activeWhyUsIdx, setActiveWhyUsIdx] = useState(0);
+  const [activeTrustIdx, setActiveTrustIdx] = useState(0);
+
+  // Generic scroll handler for slider dot sync
+  const handleSliderScroll = useCallback((ref: React.RefObject<HTMLDivElement | null>, setIdx: (i: number) => void) => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const children = el.children;
+    if (!children.length) return;
+    const childWidth = (children[0] as HTMLElement).offsetWidth + 16; // gap included
+    const idx = Math.round(el.scrollLeft / childWidth);
+    setIdx(Math.min(idx, children.length - 1));
+  }, []);
+
+  const scrollSliderTo = useCallback((ref: React.RefObject<HTMLDivElement | null>, idx: number) => {
+    if (!ref.current) return;
+    const children = ref.current.children;
+    if (!children[idx]) return;
+    (children[idx] as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }, []);
 
   // Process timeline data mapping to cinematic layout nodes
   const steps: GrowthStep[] = [
@@ -453,13 +485,68 @@ export default function App() {
             <button
               id="nav-lets-talk-btn"
               onClick={() => setIsTalkModalOpen(true)}
-              className="text-[10px] font-bold tracking-[0.16em] uppercase text-white bg-[#1a1918] hover:bg-[#a8854f] px-5 py-2.5 rounded-full transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-[0_4px_12px_rgba(26,25,24,0.15)] hover:shadow-[0_8px_20px_rgba(168,133,79,0.35)] cursor-pointer flex items-center gap-1.5"
+              className="hidden sm:flex text-[10px] font-bold tracking-[0.16em] uppercase text-white bg-[#1a1918] hover:bg-[#a8854f] px-5 py-2.5 rounded-full transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-[0_4px_12px_rgba(26,25,24,0.15)] hover:shadow-[0_8px_20px_rgba(168,133,79,0.35)] cursor-pointer items-center gap-1.5"
             >
               <span>LET'S TALK</span>
+            </button>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-stone-100 transition-colors cursor-pointer compact-btn"
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5 text-[#1a1918]" />
+              ) : (
+                <Menu className="w-5 h-5 text-[#1a1918]" />
+              )}
             </button>
           </div>
         </motion.div>
       </nav>
+
+      {/* MOBILE MENU OVERLAY + PANEL */}
+      <div
+        className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+      <div className={`mobile-menu-panel ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="flex flex-col h-full">
+          <div className="flex items-center justify-between px-6 py-5 border-b border-stone-200">
+            <span className="text-sm font-extrabold font-heading text-[#1a1918]">Menu</span>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-2 rounded-full hover:bg-stone-100 transition-colors compact-btn"
+            >
+              <X className="w-5 h-5 text-stone-600" />
+            </button>
+          </div>
+          <nav className="flex flex-col gap-1 px-4 py-6">
+            {[
+              { label: 'Testimonials', id: 'intro' },
+              { label: 'Strategy', id: 'process' },
+              { label: 'Pricing', id: 'services' },
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => { scrollToId(item.id); setIsMobileMenuOpen(false); }}
+                className="text-left px-4 py-3.5 text-sm font-bold text-[#1a1918] hover:bg-[#a8854f]/10 rounded-xl transition-all cursor-pointer tracking-wide uppercase"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          <div className="mt-auto px-6 pb-8">
+            <button
+              onClick={() => { setIsTalkModalOpen(true); setIsMobileMenuOpen(false); }}
+              className="w-full py-4 bg-[#1a1918] text-white text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-[#a8854f] transition-all cursor-pointer shadow-lg"
+            >
+              Let's Talk
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* PREMIUM HERO LANDING STAGE */}
       <section
@@ -607,8 +694,9 @@ export default function App() {
             inbound opportunities.
           </p>
 
-          {/* Aesthetic Instagram Testimonial Cards Grid (Initially 3, +2 on View More) */}
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
+          {/* Testimonial Cards: Mobile Slider / Desktop Grid */}
+          {/* Desktop grid */}
+          <div className="w-full hidden lg:grid grid-cols-3 gap-7 items-stretch">
             {(showAllTestimonials
               ? TESTIMONIALS_DATA
               : TESTIMONIALS_DATA.slice(0, 3)
@@ -619,6 +707,38 @@ export default function App() {
                 index={idx}
               />
             ))}
+          </div>
+
+          {/* Mobile/Tablet horizontal slider */}
+          <div className="w-full lg:hidden">
+            <div
+              ref={testimonialSliderRef}
+              className="mobile-slider px-2"
+              onScroll={() => handleSliderScroll(testimonialSliderRef, setActiveTestimonialIdx)}
+            >
+              {(showAllTestimonials
+                ? TESTIMONIALS_DATA
+                : TESTIMONIALS_DATA.slice(0, 3)
+              ).map((item, idx) => (
+                <div key={item.id} className="testimonial-slider-card">
+                  <InstagramTestimonialCard
+                    testimonial={item}
+                    index={idx}
+                  />
+                </div>
+              ))}
+            </div>
+            {/* Slider Dots */}
+            <div className="slider-dots">
+              {(showAllTestimonials ? TESTIMONIALS_DATA : TESTIMONIALS_DATA.slice(0, 3)).map((_, i) => (
+                <button
+                  key={i}
+                  className={`slider-dot compact-btn ${activeTestimonialIdx === i ? 'active' : ''}`}
+                  onClick={() => scrollSliderTo(testimonialSliderRef, i)}
+                  aria-label={`Go to testimonial ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* View More Button (Click to reveal 2 more testimonials) */}
@@ -805,8 +925,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* Pricing Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-4">
+          {/* Pricing Cards: Desktop Grid */}
+          <div className="hidden lg:grid grid-cols-3 gap-8 items-stretch pt-4">
             {/* INTAKE PACKAGE 01 - GROWTH */}
             <div className="relative bg-white/90 backdrop-blur-md rounded-2xl border border-stone-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)] p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 text-left">
               <div>
@@ -1088,8 +1208,108 @@ export default function App() {
             </div>
           </div>
 
+          {/* Mobile Pricing Slider */}
+          <div className="lg:hidden pt-4">
+            <div
+              ref={pricingSliderRef}
+              className="mobile-slider px-2"
+              onScroll={() => handleSliderScroll(pricingSliderRef, setActivePricingIdx)}
+            >
+              {/* GROWTH card mobile */}
+              <div className="pricing-slider-card relative bg-white/90 backdrop-blur-md rounded-2xl border border-stone-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)] p-7 flex flex-col justify-between text-left">
+                <div>
+                  <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#a8854f] uppercase block mb-2">TIER 01 · STARTER</span>
+                  <h3 className="text-xl font-heading font-extrabold text-stone-900 mb-2">Growth Accelerator</h3>
+                  <p className="text-xs text-stone-500 leading-relaxed">For emerging founders and scaling professionals ready to initiate consistent brand presence.</p>
+                  <div className="pt-5 pb-5 border-y border-stone-100 my-5">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-3xl font-extrabold font-heading text-stone-900 tracking-tight">{prices.growth}</span>
+                      <span className="text-xs text-stone-500 font-medium">{prices.suffix}</span>
+                    </div>
+                    <p className="text-[11px] text-stone-400 mt-1 font-medium">Flat monthly retainer · Dedicated production pod</p>
+                  </div>
+                  <ul className="space-y-3 mb-6">
+                    {["10 High-Quality Reels / Shorts", "Focus Authority Script Formulation", "1 Primary Platform Distribution", "Monthly Performance Review", "Standard 72-Hour Revision Cycle", "Dedicated WhatsApp / Email Channel"].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-stone-700 text-xs">
+                        <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5"><Check className="w-3 h-3 stroke-[3]" /></div>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button onClick={() => handleApplyPackage("Growth Accelerator")} className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#1a1918] text-white hover:bg-[#a8854f] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-md mt-auto">
+                  <span>Select Growth Plan</span><ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+
+              {/* AUTHORITY card mobile */}
+              <div className="pricing-slider-card relative bg-gradient-to-b from-[#faf8f4] to-white rounded-2xl border-2 border-[#a8854f] shadow-[0_20px_50px_rgba(168,133,79,0.16)] p-7 flex flex-col justify-between text-left">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#a8854f] text-white text-[9px] font-extrabold tracking-[0.22em] uppercase shadow-md flex items-center gap-1.5 whitespace-nowrap">
+                  <Sparkles className="w-3 h-3 animate-spin-slow" /><span>MOST POPULAR</span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#a8854f] uppercase block mb-2 mt-2">TIER 02 · SCALE</span>
+                  <h3 className="text-xl font-heading font-extrabold text-stone-900 mb-2">Authority Builder</h3>
+                  <p className="text-xs text-stone-600 leading-relaxed font-medium">Our cornerstone luxury package designed for leaders ready to systematically scale organic leverage.</p>
+                  <div className="pt-5 pb-5 border-y border-[#a8854f]/25 my-5 bg-[#a8854f]/5 -mx-7 px-7">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-3xl font-extrabold font-heading text-stone-900 tracking-tight">{prices.authority}</span>
+                      <span className="text-xs text-[#a8854f] font-bold">{prices.suffix}</span>
+                    </div>
+                    <p className="text-[11px] text-[#8e6e3c] mt-1 font-semibold">Flat monthly retainer · Comprehensive scale model</p>
+                  </div>
+                  <ul className="space-y-3 mb-6">
+                    {["15 High-Fidelity Reels / Shorts", "Attention Cascade Script Schema", "Multi-Platform Managed Distribution", "Bi-Weekly Strategic Growth Audits", "Priority 48-Hour Cinematic Edits", "Dedicated Creative Strategist"].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-stone-700 text-xs">
+                        <div className="w-5 h-5 rounded-full bg-[#a8854f]/15 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5"><Check className="w-3 h-3 stroke-[3]" /></div>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button onClick={() => handleApplyPackage("Authority Builder")} className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#a8854f] text-white hover:bg-[#8e6e3c] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-[#a8854f]/30 mt-auto">
+                  <span>Select Authority Plan</span><ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+
+              {/* ELITE card mobile */}
+              <div className="pricing-slider-card relative bg-white/90 backdrop-blur-md rounded-2xl border border-stone-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)] p-7 flex flex-col justify-between text-left">
+                <div>
+                  <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#a8854f] uppercase block mb-2">TIER 03 · ENTERPRISE</span>
+                  <h3 className="text-xl font-heading font-extrabold text-stone-900 mb-2">Elite Partnership</h3>
+                  <p className="text-xs text-stone-500 leading-relaxed">Built for key operators seeking dedicated content infrastructure and absolute execution sync.</p>
+                  <div className="pt-5 pb-5 border-y border-stone-100 my-5">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-3xl font-extrabold font-heading text-stone-900 tracking-tight">{prices.elite}</span>
+                      <span className="text-xs text-stone-500 font-medium">{prices.suffix}</span>
+                    </div>
+                    <p className="text-[11px] text-stone-400 mt-1 font-medium">Flat monthly retainer · Executive omnichannel sync</p>
+                  </div>
+                  <ul className="space-y-3 mb-6">
+                    {["30 Bespoke Cinema Deliverables", "Bespoke Brand Voice Consulting", "Complete Multi-Channel Publishing", "Weekly Executive Growth Sync", "Priority 24-Hour Turnaround", "Direct Executive Creative Direction"].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-stone-700 text-xs">
+                        <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5"><Check className="w-3 h-3 stroke-[3]" /></div>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button onClick={() => handleApplyPackage("Elite Partnership")} className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#1a1918] text-white hover:bg-[#a8854f] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-md mt-auto">
+                  <span>Select Elite Plan</span><ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+            {/* Pricing Slider Dots */}
+            <div className="slider-dots">
+              {[0, 1, 2].map((i) => (
+                <button key={i} className={`slider-dot compact-btn ${activePricingIdx === i ? 'active' : ''}`} onClick={() => scrollSliderTo(pricingSliderRef, i)} aria-label={`Go to pricing plan ${i + 1}`} />
+              ))}
+            </div>
+          </div>
+
           {/* Trust & Guarantee Strip */}
-          <div className="mt-14 pt-10 border-t border-stone-200/80 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+          {/* Desktop */}
+          <div className="mt-14 pt-10 border-t border-stone-200/80 hidden md:grid grid-cols-3 gap-6 text-left">
             <div className="flex items-start gap-3.5 p-5 rounded-xl bg-white/70 backdrop-blur-xs border border-stone-200/60 shadow-2xs">
               <div className="w-9 h-9 rounded-lg bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
@@ -1135,6 +1355,42 @@ export default function App() {
               </div>
             </div>
           </div>
+
+          {/* Mobile Trust Slider */}
+          <div className="md:hidden mt-10 pt-8 border-t border-stone-200/80">
+            <div
+              ref={trustSliderRef}
+              className="mobile-slider px-2"
+              onScroll={() => handleSliderScroll(trustSliderRef, setActiveTrustIdx)}
+            >
+              <div className="trust-slider-card flex items-start gap-3.5 p-5 rounded-xl bg-white/70 backdrop-blur-xs border border-stone-200/60 shadow-2xs">
+                <div className="w-9 h-9 rounded-lg bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0"><ShieldCheck className="w-5 h-5" /></div>
+                <div>
+                  <h4 className="text-xs font-bold font-heading text-stone-900 uppercase tracking-wider">Zero Lock-In Contract</h4>
+                  <p className="text-xs text-stone-500 mt-1 leading-relaxed">Month-to-month flexibility. Upgrade, pause, or cancel anytime with simple 14-day notice.</p>
+                </div>
+              </div>
+              <div className="trust-slider-card flex items-start gap-3.5 p-5 rounded-xl bg-white/70 backdrop-blur-xs border border-stone-200/60 shadow-2xs">
+                <div className="w-9 h-9 rounded-lg bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0"><Clock className="w-5 h-5" /></div>
+                <div>
+                  <h4 className="text-xs font-bold font-heading text-stone-900 uppercase tracking-wider">48-Hour Rapid Kickoff</h4>
+                  <p className="text-xs text-stone-500 mt-1 leading-relaxed">Structured onboarding within 48 hours. First strategic content batch delivered in 5 days.</p>
+                </div>
+              </div>
+              <div className="trust-slider-card flex items-start gap-3.5 p-5 rounded-xl bg-white/70 backdrop-blur-xs border border-stone-200/60 shadow-2xs">
+                <div className="w-9 h-9 rounded-lg bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0"><Crown className="w-5 h-5 text-[#a8854f]" /></div>
+                <div>
+                  <h4 className="text-xs font-bold font-heading text-stone-900 uppercase tracking-wider">100% Bespoke Cinema</h4>
+                  <p className="text-xs text-stone-500 mt-1 leading-relaxed">Zero generic templates or outsourced low-grade work. Handcrafted cinema tailored to you.</p>
+                </div>
+              </div>
+            </div>
+            <div className="slider-dots">
+              {[0, 1, 2].map((i) => (
+                <button key={i} className={`slider-dot compact-btn ${activeTrustIdx === i ? 'active' : ''}`} onClick={() => scrollSliderTo(trustSliderRef, i)} aria-label={`Trust item ${i + 1}`} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1155,50 +1411,57 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+          {/* Desktop grid */}
+          <div className="hidden md:grid grid-cols-3 gap-8 text-left">
             {/* VALUE ITEM 01 */}
             <div className="bg-white/80 border border-stone-200/50 p-8 rounded-2xl shadow-sm hover:-translate-y-2.5 transition-all duration-300 group">
               <div className="w-12 h-12 bg-[#a8854f]/10 text-[#a8854f] rounded-xl flex items-center justify-center mb-6">
                 <User className="w-6 h-6 group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="text-lg font-bold font-heading text-[#1a1918] mb-3">
-                Founder-Led Strategy
-              </h3>
-              <p className="text-xs md:text-sm text-stone-600/90 leading-relaxed">
-                Every leader possesses unique perspectives. We understand your
-                distinct professional tone first, ensuring content sounds
-                confident and exact.
-              </p>
+              <h3 className="text-lg font-bold font-heading text-[#1a1918] mb-3">Founder-Led Strategy</h3>
+              <p className="text-xs md:text-sm text-stone-600/90 leading-relaxed">Every leader possesses unique perspectives. We understand your distinct professional tone first, ensuring content sounds confident and exact.</p>
             </div>
-
             {/* VALUE ITEM 02 */}
             <div className="bg-white/80 border border-stone-200/50 p-8 rounded-2xl shadow-sm hover:-translate-y-2.5 transition-all duration-300 group">
               <div className="w-12 h-12 bg-[#a8854f]/10 text-[#a8854f] rounded-xl flex items-center justify-center mb-6">
                 <Crown className="w-6 h-6 group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="text-lg font-bold font-heading text-[#1a1918] mb-3">
-                Premium Content With Purpose
-              </h3>
-              <p className="text-xs md:text-sm text-stone-600/90 leading-relaxed">
-                High resolution video alone does not equate to value. Every reel
-                we build starts with a core hooks model, focused metrics, and
-                professional timing.
-              </p>
+              <h3 className="text-lg font-bold font-heading text-[#1a1918] mb-3">Premium Content With Purpose</h3>
+              <p className="text-xs md:text-sm text-stone-600/90 leading-relaxed">High resolution video alone does not equate to value. Every reel we build starts with a core hooks model, focused metrics, and professional timing.</p>
             </div>
-
             {/* VALUE ITEM 03 */}
             <div className="bg-white/80 border border-stone-200/50 p-8 rounded-2xl shadow-sm hover:-translate-y-2.5 transition-all duration-300 group">
               <div className="w-12 h-12 bg-[#a8854f]/10 text-[#a8854f] rounded-xl flex items-center justify-center mb-6">
                 <BarChart className="w-6 h-6 group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="text-lg font-bold font-heading text-[#1a1918] mb-3">
-                Consistency That Builds Authority
-              </h3>
-              <p className="text-xs md:text-sm text-stone-600/90 leading-relaxed">
-                Authority requires predictable, systematic presence. We take
-                full responsibility for distribution logistics to keep your
-                strategy reliable.
-              </p>
+              <h3 className="text-lg font-bold font-heading text-[#1a1918] mb-3">Consistency That Builds Authority</h3>
+              <p className="text-xs md:text-sm text-stone-600/90 leading-relaxed">Authority requires predictable, systematic presence. We take full responsibility for distribution logistics to keep your strategy reliable.</p>
+            </div>
+          </div>
+
+          {/* Mobile slider */}
+          <div className="md:hidden">
+            <div
+              ref={whyUsSliderRef}
+              className="mobile-slider px-2"
+              onScroll={() => handleSliderScroll(whyUsSliderRef, setActiveWhyUsIdx)}
+            >
+              {[
+                { icon: <User className="w-6 h-6" />, title: "Founder-Led Strategy", desc: "Every leader possesses unique perspectives. We understand your distinct professional tone first, ensuring content sounds confident and exact." },
+                { icon: <Crown className="w-6 h-6" />, title: "Premium Content With Purpose", desc: "High resolution video alone does not equate to value. Every reel we build starts with a core hooks model, focused metrics, and professional timing." },
+                { icon: <BarChart className="w-6 h-6" />, title: "Consistency That Builds Authority", desc: "Authority requires predictable, systematic presence. We take full responsibility for distribution logistics to keep your strategy reliable." },
+              ].map((item, i) => (
+                <div key={i} className="why-us-slider-card bg-white/80 border border-stone-200/50 p-7 rounded-2xl shadow-sm text-left">
+                  <div className="w-12 h-12 bg-[#a8854f]/10 text-[#a8854f] rounded-xl flex items-center justify-center mb-5">{item.icon}</div>
+                  <h3 className="text-lg font-bold font-heading text-[#1a1918] mb-3">{item.title}</h3>
+                  <p className="text-xs text-stone-600/90 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="slider-dots">
+              {[0, 1, 2].map((i) => (
+                <button key={i} className={`slider-dot compact-btn ${activeWhyUsIdx === i ? 'active' : ''}`} onClick={() => scrollSliderTo(whyUsSliderRef, i)} aria-label={`Value item ${i + 1}`} />
+              ))}
             </div>
           </div>
         </div>
