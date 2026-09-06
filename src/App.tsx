@@ -1785,7 +1785,13 @@ export default function App() {
             <h4 className="text-[10px] tracking-[0.25em] font-extrabold text-stone-400 uppercase mb-4 font-mono">
               STUDIO LOCATION
             </h4>
-            <div className="flex items-start gap-2 text-xs text-zinc-400 leading-relaxed font-sans font-medium mb-3">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=702%20Pavitraa%20Point%2C%20Yogichowk%2C%20Surat%2C%20Gujarat%20395011%2C%20India"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Fusion Media studio location in Google Maps"
+              className="flex items-start gap-2 text-xs text-zinc-400 leading-relaxed font-sans font-medium mb-3 hover:text-[#a8854f] transition-colors"
+            >
               <MapPin className="w-4 h-4 text-[#a8854f] shrink-0 mt-0.5" />
               <address className="not-italic text-stone-300 text-xs leading-relaxed">
                 702, Pavitraa Point, Yogichowk,
@@ -1796,7 +1802,7 @@ export default function App() {
                 <br />
                 Surat, Gujarat 395011, India
               </address>
-            </div>
+            </a>
             <p className="text-xs text-zinc-400 font-sans mt-2 font-medium">
               Email:{" "}
               <a
@@ -1806,14 +1812,16 @@ export default function App() {
                 info@fusionmedia.co
               </a>
             </p>
-            <p className="text-xs text-zinc-400 font-sans mt-1.5 font-medium flex items-center gap-1.5">
+            <p className="text-xs text-zinc-400 font-sans mt-1.5 font-medium flex flex-wrap items-center gap-x-1.5 gap-y-1">
               <Phone className="w-3 h-3 text-[#a8854f]" />
               <span>Mobile / WhatsApp:</span>
               <a
-                href="tel:+919876543210"
-                className="text-stone-300 hover:text-[#a8854f] transition-colors font-mono"
+                href="https://wa.me/919313499384"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-stone-300 hover:text-[#a8854f] transition-colors font-mono break-all"
               >
-                +91 98765 43210
+                +91 93134 99384
               </a>
             </p>
           </div>
@@ -1945,7 +1953,7 @@ export default function App() {
                   {/* Direct WhatsApp Message Button */}
                   {clientPhone && (
                     <a
-                      href={`https://wa.me/919876543210?text=${encodeURIComponent(
+                      href={`https://wa.me/919313499384?text=${encodeURIComponent(
                         `Hi Fusion Media, I just submitted an intake inquiry for ${clientName} for the ${selectedPackage} package.`,
                       )}`}
                       target="_blank"
@@ -2032,7 +2040,7 @@ export default function App() {
                             required
                             value={clientPhone}
                             onChange={(e) => setClientPhone(e.target.value)}
-                            placeholder="+91 98765 43210"
+                            placeholder="+91 93134 99384"
                             className="w-full bg-white border border-stone-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#a8854f] text-stone-900"
                           />
                         </div>
