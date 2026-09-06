@@ -1812,17 +1812,19 @@ export default function App() {
                 info@fusionmedia.co
               </a>
             </p>
-            <p className="text-xs text-zinc-400 font-sans mt-1.5 font-medium flex flex-wrap items-center gap-x-1.5 gap-y-1">
-              <Phone className="w-3 h-3 text-[#a8854f]" />
-              <span>Mobile / WhatsApp:</span>
-              <a
-                href="https://wa.me/919313499384"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-stone-300 hover:text-[#a8854f] transition-colors font-mono break-all"
-              >
-                +91 93134 99384
-              </a>
+            <p className="text-xs text-zinc-400 font-sans mt-1.5 font-medium flex items-start gap-1.5">
+              <Phone className="w-3 h-3 text-[#a8854f] shrink-0 mt-0.5" />
+              <span className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-1.5">
+                <span>Mobile / WhatsApp:</span>
+                <a
+                  href="https://wa.me/919313499384"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-300 hover:text-[#a8854f] transition-colors font-mono whitespace-nowrap"
+                >
+                  +91 93134 99384
+                </a>
+              </span>
             </p>
           </div>
         </div>
