@@ -1041,14 +1041,8 @@ export default function App() {
               </button>
             </div>
 
-            {/* INTAKE PACKAGE 02 - AUTHORITY (POPULAR) */}
-            <div className="relative bg-gradient-to-b from-[#faf8f4] to-white rounded-2xl border-2 border-[#a8854f] shadow-[0_20px_50px_rgba(168,133,79,0.16)] p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_24px_60px_rgba(168,133,79,0.22)] lg:-translate-y-2 z-10 text-left">
-              {/* Floating Pill Tag */}
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#a8854f] text-white text-[9.5px] font-extrabold tracking-[0.22em] uppercase shadow-md flex items-center gap-1.5 whitespace-nowrap">
-                <Sparkles className="w-3 h-3 animate-spin-slow" />
-                <span>MOST POPULAR · RECOMMENDED</span>
-              </div>
-
+            {/* INTAKE PACKAGE 02 - AUTHORITY */}
+            <div className="relative bg-white/90 backdrop-blur-md rounded-2xl border border-stone-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)] p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 text-left">
               <div>
                 {/* Header info */}
                 <div className="mb-2">
@@ -1065,28 +1059,28 @@ export default function App() {
                 </div>
 
                 {/* Price block */}
-                <div className="pt-6 pb-6 border-y border-[#a8854f]/25 my-6 bg-[#a8854f]/5 -mx-8 lg:-mx-9 px-8 lg:px-9">
+                <div className="pt-6 pb-6 border-y border-stone-100 my-6">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-4xl lg:text-5xl font-extrabold font-heading text-stone-900 tracking-tight">
                       {prices.authority}
                     </span>
-                    <span className="text-xs text-[#a8854f] font-bold">
+                    <span className="text-xs text-stone-500 font-medium">
                       {prices.suffix}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#8e6e3c] mt-1 font-semibold">
+                  <p className="text-[11px] text-stone-400 mt-1 font-medium">
                     Flat monthly retainer · Comprehensive scale model
                   </p>
                 </div>
 
                 {/* Deliverables List */}
                 <div className="space-y-3 mb-8">
-                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#a8854f] font-mono mb-3">
+                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-stone-400 font-mono mb-3">
                     Deliverables Included
                   </p>
                   <ul className="space-y-3.5">
-                    <li className="flex items-start gap-2.5 text-stone-800 text-xs md:text-sm font-medium">
-                      <div className="w-5 h-5 rounded-full bg-[#a8854f] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                    <li className="flex items-start gap-2.5 text-stone-700 text-xs md:text-sm">
+                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3 h-3 stroke-[3]" />
                       </div>
                       <span>
@@ -1094,19 +1088,19 @@ export default function App() {
                       </span>
                     </li>
                     <li className="flex items-start gap-2.5 text-stone-700 text-xs md:text-sm">
-                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/15 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3 h-3 stroke-[3]" />
                       </div>
                       <span>Attention Cascade Script Schema</span>
                     </li>
                     <li className="flex items-start gap-2.5 text-stone-700 text-xs md:text-sm">
-                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/15 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3 h-3 stroke-[3]" />
                       </div>
                       <span>Multi-Platform Managed Distribution</span>
                     </li>
                     <li className="flex items-start gap-2.5 text-stone-700 text-xs md:text-sm">
-                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/15 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3 h-3 stroke-[3]" />
                       </div>
                       <span>
@@ -1114,7 +1108,7 @@ export default function App() {
                       </span>
                     </li>
                     <li className="flex items-start gap-2.5 text-stone-700 text-xs md:text-sm">
-                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/15 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3 h-3 stroke-[3]" />
                       </div>
                       <span>
@@ -1122,7 +1116,7 @@ export default function App() {
                       </span>
                     </li>
                     <li className="flex items-start gap-2.5 text-stone-700 text-xs md:text-sm">
-                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/15 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3 h-3 stroke-[3]" />
                       </div>
                       <span>Dedicated Creative Strategist &amp; Lead</span>
@@ -1134,7 +1128,7 @@ export default function App() {
               {/* Button anchored to bottom */}
               <button
                 onClick={() => handleApplyPackage("Authority Builder")}
-                className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#a8854f] text-white hover:bg-[#8e6e3c] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-[#a8854f]/30 hover:shadow-xl hover:shadow-[#a8854f]/40 mt-auto"
+                className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#1a1918] text-white hover:bg-[#a8854f] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-md hover:shadow-lg mt-auto"
               >
                 <span>Select Authority Plan</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -1142,7 +1136,7 @@ export default function App() {
             </div>
 
             {/* INTAKE PACKAGE 03 - ELITE */}
-            <div className="relative bg-white/90 backdrop-blur-md rounded-2xl border border-stone-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)] p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 text-left">
+            <div className="relative bg-gradient-to-b from-[#faf8f4] to-white rounded-2xl border-2 border-[#a8854f] shadow-[0_20px_50px_rgba(168,133,79,0.16)] p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_24px_60px_rgba(168,133,79,0.22)] lg:-translate-y-2 z-10 text-left">
               <div>
                 {/* Header info */}
                 <div className="mb-2">
@@ -1159,16 +1153,16 @@ export default function App() {
                 </div>
 
                 {/* Price block */}
-                <div className="pt-6 pb-6 border-y border-stone-100 my-6">
+                <div className="pt-6 pb-6 border-y border-[#a8854f]/25 my-6 bg-[#a8854f]/5 -mx-8 lg:-mx-9 px-8 lg:px-9">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-4xl lg:text-5xl font-extrabold font-heading text-stone-900 tracking-tight">
                       {prices.elite}
                     </span>
-                    <span className="text-xs text-stone-500 font-medium">
+                    <span className="text-xs text-[#a8854f] font-bold">
                       {prices.suffix}
                     </span>
                   </div>
-                  <p className="text-[11px] text-stone-400 mt-1 font-medium">
+                  <p className="text-[11px] text-[#8e6e3c] mt-1 font-semibold">
                     Flat monthly retainer · Executive omnichannel sync
                   </p>
                 </div>
@@ -1224,7 +1218,7 @@ export default function App() {
               {/* Button anchored to bottom */}
               <button
                 onClick={() => handleApplyPackage("Elite Partnership")}
-                className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#1a1918] text-white hover:bg-[#a8854f] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-md hover:shadow-lg mt-auto"
+                className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#a8854f] text-white hover:bg-[#8e6e3c] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-[#a8854f]/30 hover:shadow-xl hover:shadow-[#a8854f]/40 mt-auto"
               >
                 <span>Select Elite Plan</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -1298,11 +1292,7 @@ export default function App() {
               </div>
 
               {/* AUTHORITY card mobile */}
-              <div className="pricing-slider-card relative bg-gradient-to-b from-[#faf8f4] to-white rounded-2xl border-2 border-[#a8854f] shadow-[0_20px_50px_rgba(168,133,79,0.16)] p-7 flex flex-col justify-between text-left">
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#a8854f] text-white text-[9px] font-extrabold tracking-[0.22em] uppercase shadow-md flex items-center gap-1.5 whitespace-nowrap">
-                  <Sparkles className="w-3 h-3 animate-spin-slow" />
-                  <span>MOST POPULAR</span>
-                </div>
+              <div className="pricing-slider-card relative bg-white/90 backdrop-blur-md rounded-2xl border border-stone-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)] p-7 flex flex-col justify-between text-left">
                 <div>
                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#a8854f] uppercase block mb-2 mt-2">
                     TIER 02 · SCALE
@@ -1314,16 +1304,16 @@ export default function App() {
                     Our cornerstone luxury package designed for leaders ready to
                     systematically scale organic leverage.
                   </p>
-                  <div className="pt-5 pb-5 border-y border-[#a8854f]/25 my-5 bg-[#a8854f]/5 -mx-7 px-7">
+                  <div className="pt-5 pb-5 border-y border-stone-100 my-5">
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-3xl font-extrabold font-heading text-stone-900 tracking-tight">
                         {prices.authority}
                       </span>
-                      <span className="text-xs text-[#a8854f] font-bold">
+                      <span className="text-xs text-stone-500 font-medium">
                         {prices.suffix}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#8e6e3c] mt-1 font-semibold">
+                    <p className="text-[11px] text-stone-400 mt-1 font-medium">
                       Flat monthly retainer · Comprehensive scale model
                     </p>
                   </div>
@@ -1340,7 +1330,7 @@ export default function App() {
                         key={item}
                         className="flex items-start gap-2.5 text-stone-700 text-xs"
                       >
-                        <div className="w-5 h-5 rounded-full bg-[#a8854f]/15 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-5 h-5 rounded-full bg-[#a8854f]/10 text-[#a8854f] flex items-center justify-center shrink-0 mt-0.5">
                           <Check className="w-3 h-3 stroke-[3]" />
                         </div>
                         <span>{item}</span>
@@ -1350,7 +1340,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={() => handleApplyPackage("Authority Builder")}
-                  className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#a8854f] text-white hover:bg-[#8e6e3c] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-[#a8854f]/30 mt-auto"
+                  className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#1a1918] text-white hover:bg-[#a8854f] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-md mt-auto"
                 >
                   <span>Select Authority Plan</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -1358,9 +1348,9 @@ export default function App() {
               </div>
 
               {/* ELITE card mobile */}
-              <div className="pricing-slider-card relative bg-white/90 backdrop-blur-md rounded-2xl border border-stone-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)] p-7 flex flex-col justify-between text-left">
+              <div className="pricing-slider-card relative bg-gradient-to-b from-[#faf8f4] to-white rounded-2xl border-2 border-[#a8854f] shadow-[0_20px_50px_rgba(168,133,79,0.16)] p-7 flex flex-col justify-between text-left">
                 <div>
-                  <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#a8854f] uppercase block mb-2">
+                  <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#a8854f] uppercase block mb-2 mt-2">
                     TIER 03 · ENTERPRISE
                   </span>
                   <h3 className="text-xl font-heading font-extrabold text-stone-900 mb-2">
@@ -1370,16 +1360,16 @@ export default function App() {
                     Built for key operators seeking dedicated content
                     infrastructure and absolute execution sync.
                   </p>
-                  <div className="pt-5 pb-5 border-y border-stone-100 my-5">
+                  <div className="pt-5 pb-5 border-y border-[#a8854f]/25 my-5 bg-[#a8854f]/5 -mx-7 px-7">
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-3xl font-extrabold font-heading text-stone-900 tracking-tight">
                         {prices.elite}
                       </span>
-                      <span className="text-xs text-stone-500 font-medium">
+                      <span className="text-xs text-[#a8854f] font-bold">
                         {prices.suffix}
                       </span>
                     </div>
-                    <p className="text-[11px] text-stone-400 mt-1 font-medium">
+                    <p className="text-[11px] text-[#8e6e3c] mt-1 font-semibold">
                       Flat monthly retainer · Executive omnichannel sync
                     </p>
                   </div>
@@ -1406,7 +1396,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={() => handleApplyPackage("Elite Partnership")}
-                  className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#1a1918] text-white hover:bg-[#a8854f] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-md mt-auto"
+                  className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#a8854f] text-white hover:bg-[#8e6e3c] transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-[#a8854f]/30 mt-auto"
                 >
                   <span>Select Elite Plan</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
