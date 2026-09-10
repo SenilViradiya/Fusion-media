@@ -1233,10 +1233,10 @@ export default function App() {
           </div>
 
           {/* Mobile Pricing Slider */}
-          <div className="lg:hidden pt-4">
+          <div className="lg:hidden">
             <div
               ref={pricingSliderRef}
-              className="mobile-slider px-2"
+              className="mobile-slider px-2 pt-6 pb-2"
               onScroll={() =>
                 handleSliderScroll(pricingSliderRef, setActivePricingIdx)
               }
